@@ -1,10 +1,31 @@
-# EECS149 Final Project - Outdoor Guardian Embedded Prototype Development
+# Outdoor Guardian: An Embedded Solution for Outdoor Enthusiasts
+
+## Introduction
+
+**Background:**  
+In today's fast-paced world, people increasingly turn to outdoor activities such as hiking, skiing, and mountaineering to rejuvenate and reconnect with nature. Safety and communication are paramount during these adventures, especially in challenging terrains and unpredictable conditions.
+
+**Project Overview:**  
+The "Outdoor Guardian" is a cutting-edge embedded device designed to address these concerns. Tailored for outdoor enthusiasts, this gadget not only provides real-time tracking capabilities but also serves as a lifeline in times of need.
+
+## Key Features:
+
+1. **Real-time GPS Tracking:** Deliver accurate GPS positioning, ensuring adventurers always know their location.
+2. **LoraWAN Communication:** Enables communication over long distances without traditional networks.
+3. **Vital Sign Monitoring:** Tracks the user's vital signs in real-time.
+4. **Emergency Alert System:** Sends out an immediate distress signal in emergencies.
+5. **Altimeter and Barometer:** Provide real-time data on altitude and atmospheric pressure.
+6. **Long-lasting Battery:** Ensures users remain connected throughout their journey.
+
+---
+
+# EECS149 Final Project - Prototype Development for Outdoor Guardian
 
 ## 1. Project Background
-The Outdoor Guardian aims to offer advanced tracking and communication capabilities for outdoor enthusiasts. Given the current technological landscape, developing an embedded device with integrated functionalities for outdoor scenarios presents a broad application horizon.
+Developing an embedded device with integrated functionalities for outdoor scenarios presents a broad application horizon.
 
 ## 2. Objectives & Specifications
-- **Primary Goal**: Develop an embedded prototype for outdoor enthusiasts based on the ESP32 or Raspberry Pi platform.
+- **Primary Goal**: Develop a prototype based on the ESP32 or Raspberry Pi platform.
 - **Hardware Specifications**:
   - ESP32 or Raspberry Pi platform
   - GPS module
@@ -17,27 +38,25 @@ The Outdoor Guardian aims to offer advanced tracking and communication capabilit
 ## 3. Design & Development
 
 ### 3.1 Hardware Design
-- Integration of the ESP32 or Raspberry Pi with the aforementioned hardware modules.
-- Power management system design to support extended battery life.
+- Integration of ESP32 or Raspberry Pi with the necessary hardware modules.
+- Power management for extended battery life.
 - PCB layout design.
 
 ### 3.2 Software Development
-- Employ ESP-IDF or Raspbian as the platform for developing drivers and applications.
-- Implement functionalities like GPS tracking, LoraWAN communication, and vital signs monitoring.
-- Consider simplicity and efficiency in UI/UX design.
+- Using ESP-IDF or Raspbian for platform-specific firmware and drivers.
+- Implementation of GPS tracking, LoraWAN communication, and health monitoring.
 
 ## 4. Prototype Validation & Testing
 
 ### 4.1 Functional Verification
-- Integrated testing of functionalities such as GPS, LoraWAN communication, etc.
+- Integrated testing for GPS, LoraWAN communication, etc.
 
 ### 4.2 Performance Testing
-- Battery lifespan evaluation.
-- Performance tests under various environmental conditions.
+- Battery lifespan testing.
+- Performance evaluation under different conditions.
 
 ## 5. Conclusion & Future Directions
-- Analyze successes and challenges of the project.
-- Discuss potential improvements and market applications for the future.
+Analyze successes and challenges. Discuss future improvements and potential applications.
 
 ## 6. Appendices
-- Source codes, circuit diagrams, and other technical documents.
+Source codes, circuit diagrams, and technical documents.
