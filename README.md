@@ -19,7 +19,7 @@ The "Outdoor Guardian" is a cutting-edge embedded device designed to address the
 
 ---
 
-# EECS149 Final Project - Prototype Development for Outdoor Guardian
+# Prototype Development for Outdoor Guardian
 
 ## 1. Project Background
 Developing an embedded device with integrated functionalities for outdoor scenarios presents a broad application horizon.
