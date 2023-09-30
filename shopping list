@@ -1,0 +1,16 @@
+Heart Rate Sensor
+https://www.amazon.com/MAX30102-Detection-Concentration-Compatible-Arduino/dp/B07ZQNC8XP/ref=asc_df_B07ZQNC8XP/?tag=hyprod-20&linkCode=df0&hvadid=459704843517&hvpos=&hvnetw=g&hvrand=17646534424513492615&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9032086&hvtargid=pla-914929956645&psc=1
+driver
+https://github.com/n-elia/MAX30102-MicroPython-driver
+
+
+GPS
+https://www.amazon.com/HiLetgo-GY-NEO6MV2-Controller-Ceramic-Antenna/dp/B01D1D0F5M/ref=sr_1_3?crid=1RDLHAHNSD6JV&keywords=gps+module&qid=1696071659&s=industrial&sprefix=gps+module%2Cindustrial%2C120&sr=1-3
+driver
+https://github.com/inmcm/micropyGPS
+
+
+Atmospheric Pressure Sensor
+https://www.amazon.com/EC-Buying-GY-BMP280-Atmospheric-Precision/dp/B0B38CBXG1/ref=sr_1_5?crid=2VRJWQ14PQV72&keywords=atmospheric+pressure+sensor&qid=1696071869&s=industrial&sprefix=atmospheric+pressure+sensor%2Cindustrial%2C159&sr=1-5
+driver 
+https://github.com/dafvid/micropython-bmp280
