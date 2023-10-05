@@ -14,3 +14,9 @@ Atmospheric Pressure Sensor
 https://www.amazon.com/EC-Buying-GY-BMP280-Atmospheric-Precision/dp/B0B38CBXG1/ref=sr_1_5?crid=2VRJWQ14PQV72&keywords=atmospheric+pressure+sensor&qid=1696071869&s=industrial&sprefix=atmospheric+pressure+sensor%2Cindustrial%2C159&sr=1-5
 driver 
 https://github.com/dafvid/micropython-bmp280
+
+
+microphone
+https://www.amazon.com/Teyleten-Robot-Electret-Microphone-Amplifier/dp/B0B7SP6GYX/ref=asc_df_B0B7SP6GYX/?tag=hyprod-20&linkCode=df0&hvadid=658747586773&hvpos=&hvnetw=g&hvrand=11917233564353612000&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9032086&hvtargid=pla-2072357291496&psc=1&gclid=CjwKCAjwvfmoBhAwEiwAG2tqzENkvo6xKiw8B3GhEmP2eMorgXbYf1dqJ2IOdTqaSSPOxyrxKoaUeRoC7nkQAvD_BwE
+reference
+https://stackoverflow.com/questions/56406671/how-do-i-record-audio-with-micropython-on-the-esp32
