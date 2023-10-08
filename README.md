@@ -34,7 +34,7 @@ Developing an embedded device with integrated functionalities for outdoor scenar
   - Altimeter and barometer
   - Long-lasting battery
   - Buttons for input
-
+  - IMU Sensor
 ## 3. Design & Development
 
 ### 3.1 Hardware Design
