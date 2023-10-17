@@ -1,40 +1,58 @@
-# Outdoor Guardian Project Timeline
+# **Outdoor Guardian Project Timeline**
 
 ## **October:**
 
-### **Week 1: Project Kickoff and Planning**
-- Finalize project requirements.
-- Begin sourcing ESP32/Raspberry Pi and other necessary hardware components.
-- Initial team meeting and role assignments.
+### **Week 3 (Oct 16 - Oct 22): Group Formation and Idea Development**
+- **Objective:** Formation of teams and brainstorming.
+  - Groups and ideas matching completed by October 16.
+  - Brainstorm and finalize the key project features.
+  - Begin drafting the project proposal.
 
-### **Week 2: Prototype Board Setup**
-- Lay out components on the prototype board.
-- Establish connections based on design schematics.
-- Initial testing of individual components.
-
-### **Week 3: Begin Software Development**
-- Set up development environment for ESP32/Raspberry Pi.
-- Start writing drivers for sensors (GPS, heart rate monitor, etc.).
-- Begin integrating software drivers with hardware on the prototype board.
-
-### **Week 4: Functional Testing and Refinement**
-- Test the prototype board functionalities: GPS tracking, LoraWAN communication, vital signs monitoring.
-- Document any bugs or issues.
-- Begin iterations on refining the prototype based on tests.
+### **Week 4 (Oct 23 - Oct 29): Project Proposal Submission**
+- **Objective:** Finalize and submit the project proposal.
+  - Finalize the project proposal based on feedback.
+  - Submit the proposal by October 23.
+  - Start preliminary work on the prototype board setup.
 
 ## **November:**
 
-### **Week 1: Debugging and Performance Testing**
-- Address software bugs or hardware issues from functional tests.
-- Test battery lifespan and device performance under various conditions.
+### **Week 1 (Oct 30 - Nov 5): Prototype Development**
+- **Objective:** Progress on hardware and software components.
+  - Lay out components on the prototype board.
+  - Start on the firmware/software development.
 
-### **Week 2: Final Refinements and Documentation**
-- Make final adjustments based on feedback.
-- Start preparing detailed documentation on development, challenges, and solutions.
+### **Week 2 (Nov 6 - Nov 12): Milestone 1 Submission and Presentation**
+- **Objective:** Complete the initial stage of the project.
+  - Finalize the tasks outlined for Milestone 1.
+  - Submit Milestone 1 by November 7.
+  - Prepare for the Milestone 1 presentations.
+  - Present Milestone 1 in class on November 8 or 10.
 
-### **Week 3: Presentation Preparation and Dry Runs**
-- Prepare a project presentation.
-- Conduct dry runs and refine based on feedback.
+### **Week 3 (Nov 13 - Nov 19): Refinement and Midterm**
+- **Objective:** Refine work based on feedback from Milestone 1 and prepare for the midterm.
+  - Address any feedback from the Milestone 1 presentations.
+  - Study and prepare for Midterm 2 on November 15.
 
-### **Week 4: Project Presentation and Submission**
-- Submit project and all documentation.
+### **Week 4 (Nov 20 - Nov 26): Milestone 2 Development**
+- **Objective:** Progress towards the second major project checkpoint.
+  - Continue with hardware and software development.
+  - Prepare for Milestone 2 (Exact date to be determined).
+
+## **December:**
+
+### **Week 1 (Nov 27 - Dec 3): Milestone 2 Finalization**
+- **Objective:** Finish tasks for Milestone 2.
+  - Finalize all tasks and objectives for Milestone 2.
+  - Attend Milestone 2 meetings as scheduled.
+
+### **Week 2 (Dec 4 - Dec 10): Preparations for Final Presentation**
+- **Objective:** Prepare for the Project Poster/Demo Expo.
+  - Test and refine the prototype.
+  - Prepare presentation materials and the project poster.
+
+### **Week 3 (Dec 11 - Dec 17): Final Presentation and Project Wrap-up**
+- **Objective:** Complete the final project requirements.
+  - Participate in the Project Poster/Demo Expo on December 13.
+  - Complete and submit peer evaluations by December 14.
+  - Finish and submit the project report by December 14.
+
