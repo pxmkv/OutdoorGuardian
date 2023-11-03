@@ -18,8 +18,15 @@ https://github.com/dafvid/micropython-bmp280
 
 microphone
 https://www.amazon.com/Teyleten-Robot-Electret-Microphone-Amplifier/dp/B0B7SP6GYX/ref=asc_df_B0B7SP6GYX/?tag=hyprod-20&linkCode=df0&hvadid=658747586773&hvpos=&hvnetw=g&hvrand=11917233564353612000&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9032086&hvtargid=pla-2072357291496&psc=1&gclid=CjwKCAjwvfmoBhAwEiwAG2tqzENkvo6xKiw8B3GhEmP2eMorgXbYf1dqJ2IOdTqaSSPOxyrxKoaUeRoC7nkQAvD_BwE
+
+
+
 reference
 https://stackoverflow.com/questions/56406671/how-do-i-record-audio-with-micropython-on-the-esp32
 
 
 speaker
+
+
+DAC
+https://www.aliexpress.us/item/3256802711963831.html?gatewayAdapt=glo2usa4itemAdapt
