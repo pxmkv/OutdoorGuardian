@@ -6,9 +6,9 @@ import time
 from machine import Pin, I2C
 from micropython_lsm6dsox import LSM6DSOX
 
-i2c = I2C(1, sda=Pin(2), scl=Pin(3))  # Correct I2C pins for RP2040
+i2c = I2C(1, sda=Pin(23), scl=Pin(22))  # Correct I2C pins for RP2040
 lsm = LSM6DSOX(i2c)
-
+ 
 while True:
     accx, accy, accz = lsm.acceleration
     print(f"x:{accx:.2f}m/s2, y:{accy:.2f}m/s2, z{accz:.2f}m/s2")
