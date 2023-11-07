@@ -1,6 +1,7 @@
 import uasyncio as asyncio
 from machine import I2C, Pin 
-from imu import MPU6050, Fusion
+from imu import MPU6050
+from fusion_async import Fusion
 import ssd1306
 
 # Pins according the schematic https://heltec.org/project/wifi-kit-32/
