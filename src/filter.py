@@ -20,6 +20,29 @@ def complementary_filter(pitch, roll, gyro_data, dt, alpha=0.98):
     roll = alpha * roll + (1 - alpha) * math.atan2(-gyro_data['x'], math.sqrt(gyro_data['y'] * gyro_data['y'] + gyro_data['z'] * gyro_data['z'])) * 180 / math.pi
  
     return pitch, roll
+
+def get_mpu6050_data(i2c):
+    temp = read_raw_data(i2c, TEMP_OUT_H) / 340.0 + 36.53
+    accel_x = read_raw_data(i2c, ACCEL_XOUT_H) / 16384.0
+    accel_y = read_raw_data(i2c, ACCEL_XOUT_H + 2) / 16384.0
+    accel_z = read_raw_data(i2c, ACCEL_XOUT_H + 4) / 16384.0
+    gyro_x = read_raw_data(i2c, GYRO_XOUT_H) / 131.0
+    gyro_y = read_raw_data(i2c, GYRO_XOUT_H + 2) / 131.0
+    gyro_z = read_raw_data(i2c, GYRO_XOUT_H + 4) / 131.0
+ 
+    return {
+        'temp': temp,
+        'accel': {
+            'x': accel_x,
+            'y': accel_y,
+            'z': accel_z,
+        },
+        'gyro': {
+            'x': gyro_x,
+            'y': gyro_y,
+            'z': gyro_z,
+        }
+    }
  
 i2c = I2C(0, scl=Pin(21), sda=Pin(20), freq=400000)
 init_mpu6050(i2c)
