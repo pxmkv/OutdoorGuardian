@@ -35,9 +35,12 @@ async def display_orientation():
 
 # Run the asynchronous loop
 async def main():
-    print("main")
-    asyncio.create_task(display_orientation())
-    print("task created")
-    # If you have other tasks to run, you can create them here
+    try:
+        print("main")
+        asyncio.create_task(display_orientation())
+        print("task created")
+        # If you have other tasks to run, you can create them here
+    except Exception as e:
+        print("Error:", e)
 
 asyncio.run(main())
