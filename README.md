@@ -31,7 +31,6 @@ Developing an embedded device with integrated functionalities for outdoor scenar
   - GPS module
   - LoraWAN module
   - Heart rate sensor
-  - Altimeter and barometer
   - Long-lasting battery
   - Buttons for input
   - IMU Sensor
