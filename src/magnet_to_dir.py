@@ -21,22 +21,36 @@ def calculate_heading(x, y, declination=0):
 
     return heading_degrees 
 
-output_filename = "compass_readings.csv"
-header = "X,Y,Heading\n"
+minx = 32767
+maxx = -32768
+miny = 32767
+maxy = -32768
 
-with open(output_filename, "w") as file:
-    file.write(header)  # Write the header to the CSV file
+for i in range(50):
+    x, y, _, _, _ = compass.read()
+    declination = 10
+    heading = calculate_heading(x, y, declination)
+    print("Heading:", heading, "degrees")
 
-    for i in range(500):
-        x, y, _, _, _ = compass.read()  # Assuming sensor is an instance of your magnetometer class
-        declination = 10  # Example declination value
-        heading = calculate_heading(x, y, declination)
-        print("Heading:", heading, "degrees")
+    # Calculate min and max values
+    if x < minx:
+        minx = x
+    if x > maxx:
+        maxx = x
+    if y < miny:
+        miny = y
+    if y > maxy:
+        maxy = y
 
-        # Write the reading as a line in the CSV file
-        line = f"{x},{y},{heading}\n"
-        file.write(line)
+    time.sleep(0.1)
 
-        time.sleep(0.1)
+# Calculate offsets
+x_offset = (maxx + minx) // 2
+y_offset = (maxy + miny) // 2
 
-print(f"Data written to {output_filename}")
+print("minx:", minx)
+print("miny:", miny)
+print("maxx:", maxx)
+print("maxy:", maxy)
+print("x offset:", x_offset)
+print("y offset:", y_offset)
