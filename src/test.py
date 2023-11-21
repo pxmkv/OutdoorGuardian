@@ -72,7 +72,7 @@ def main():
 
     t_start = ticks_us()  # Starting time of the acquisition
     samples_n = 0  # Number of samples that have been collected
-    display.invert(1)
+    #display.invert(1)
     while True:
         # The check() method has to be continuously polled, to check if
         # there are new readings into the sensor's FIFO queue. When new
