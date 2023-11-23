@@ -23,9 +23,9 @@ sd = SDCard(slot=3)  # sck=14, mosi=15, miso=15, cs=13
 os.mount(sd, "/sd")
 
 # ======= I2S CONFIGURATION =======
-SCK_PIN = 0
+SCK_PIN = 4
 WS_PIN = 25
-SD_PIN = 4
+SD_PIN = 0
 I2S_ID = 0
 BUFFER_LENGTH_IN_BYTES = 40000
 # ======= I2S CONFIGURATION =======
@@ -70,7 +70,7 @@ try:
             _ = wav.seek(44)
         else:
             _ = audio_out.write(wav_samples_mv[:num_read])
-except (KeyboardInterrupt, Exception) as e:
+except (KeyboardInterru25pt, Exception) as e:
     print("caught exception {} {}".format(type(e).__name__, e))
 
 # cleanup

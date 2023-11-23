@@ -19,13 +19,26 @@ from machine import I2S
 from machine import Pin
 from machine import SDCard
 
+from machine import I2C
+import ssd1306
+
+# using default address 0x3C
+i2c = I2C(sda=Pin(21), scl=Pin(22))
+display = ssd1306.SSD1306_I2C(128, 64, i2c)
+display.invert(1)
+display.text('Playing', 0, 0, 1)
+display.show()
+
+
+
+
 sd = SDCard(slot=3)  # sck=14, mosi=15, miso=15, cs=13
 os.mount(sd, "/sd")
 
 # ======= I2S CONFIGURATION =======
-SCK_PIN = 0
+SCK_PIN = 4
 WS_PIN = 25
-SD_PIN = 4
+SD_PIN = 0
 I2S_ID = 0
 BUFFER_LENGTH_IN_BYTES = 40000
 # ======= I2S CONFIGURATION =======
@@ -74,6 +87,8 @@ async def another_task(name):
         await asyncio.sleep(urandom.randrange(2, 5))
         print("{} woke up".format(name))
         time.sleep_ms(1)  # simulates task doing something
+
+
 
 
 async def main(audio_out, wav):
