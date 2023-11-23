@@ -59,3 +59,11 @@ Analyze successes and challenges. Discuss future improvements and potential appl
 
 ## 6. Appendices
 Source codes, circuit diagrams, and technical documents.
+
+
+# Pin out (LilyGO LORA32)
+* I2S Speaker:SCK_PIN =0, WS_PIN =25, SD_PIN =4
+* I2C: SDA =21, SCL =22
+* SDCARD: slot=3 (sck=14, mosi=15, miso=2, cs=13)
+* LORA: MOSI=27, SCLK=5, CS=18, DIO=26, RST=23, MISO=19 
+* Unused pins :36,39,34,35,14,12,13
