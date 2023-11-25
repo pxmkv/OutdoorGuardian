@@ -62,7 +62,7 @@ Source codes, circuit diagrams, and technical documents.
 
 
 # Pin out (LilyGO LORA32)
-* I2S Speaker & Mic:SCK/BCK_PIN =4, WS/LCK_PIN =25, SD/DIN_PIN =0, MIC_SD=12
+* I2S Speaker & Mic: SCK/BCK_PIN =4, WS/LCK_PIN =25, SD/DIN_PIN =0, MIC_SD=12
 * I2C: SDA =21, SCL =22
 * SDCARD: slot=3 (sck=14, mosi=15, miso=2, cs=13)
 * LORA: MOSI=27, SCLK=5, CS=18, DIO=26, RST=23, MISO=19 
