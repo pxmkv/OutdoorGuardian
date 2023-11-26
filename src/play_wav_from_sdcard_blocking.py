@@ -70,7 +70,7 @@ try:
             _ = wav.seek(44)
         else:
             _ = audio_out.write(wav_samples_mv[:num_read])
-except (KeyboardInterru25pt, Exception) as e:
+except (KeyboardInterrupt, Exception) as e:
     print("caught exception {} {}".format(type(e).__name__, e))
 
 # cleanup
