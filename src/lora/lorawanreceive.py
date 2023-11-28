@@ -14,10 +14,10 @@ lora = SX127x(device_spi, pins=device_config, parameters=lora_parameters)
 print("LoRa Receiver")
 i2c = I2C(sda=Pin(21), scl=Pin(22))
 display = ssd1306.SSD1306_I2C(128, 64, i2c)
-lora.begin(915E6)
 
 while True:
     if lora.received_packet():
         lora.blink_led()
+	print('something here')
         payload = lora.read_payload()
         print(payload)

@@ -21,7 +21,7 @@ device_config = {
     'ss':18,
     'sck':5,
     'dio_0':26,
-    'reset':14,
+    'reset':23,
     'led':2, 
 }
 
