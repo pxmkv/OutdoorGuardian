@@ -15,9 +15,18 @@ print("LoRa Receiver")
 i2c = I2C(sda=Pin(21), scl=Pin(22))
 display = ssd1306.SSD1306_I2C(128, 64, i2c)
 
+
+
 while True:
+    print("Checking for packet...")
     if lora.received_packet():
+        print("Packet received")
         lora.blink_led()
-	print('something here')
-        payload = lora.read_payload()
-        print(payload)
+        try:
+            payload = lora.read_payload()
+            print("Received payload:", payload)
+        except Exception as e:
+            print("Error reading payload:", e)
+    else:
+        print("No packet received")
+    sleep(1)  # Adjust sleep time as needed
