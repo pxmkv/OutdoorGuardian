@@ -65,4 +65,5 @@ Source codes, circuit diagrams, and technical documents.
 * I2C: SDA =21, SCL =22
 * SDCARD: slot=3 (sck=14, mosi=15, miso=2, cs=13)
 * LORA: MOSI=27, SCLK=5, CS=18, DIO=26, RST=23, MISO=19 
-* Unused pins :36,39,34,35,14
+* Button: 35
+* Unused pins :36,39,34,14
