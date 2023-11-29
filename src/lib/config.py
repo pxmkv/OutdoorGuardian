@@ -22,7 +22,7 @@ device_config = {
     'sck':5,
     'dio_0':26,
     'reset':23,
-    'led':2, 
+    'led':2,
 }
 
 # M5Stack ATOM Matrix

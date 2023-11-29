@@ -172,14 +172,14 @@ class SX127x:
     def end_packet(self):
         # put in TX mode
         self.write_register(REG_OP_MODE, MODE_LONG_RANGE_MODE | MODE_TX)
-
+	print('writing again')
         # wait for TX done, standby automatically on TX_DONE
         while self.read_register(REG_IRQ_FLAGS) & IRQ_TX_DONE_MASK == 0:
             pass
+        print('pass')
 
         # clear IRQ's
         self.write_register(REG_IRQ_FLAGS, IRQ_TX_DONE_MASK)
-
         self.collect_garbage()
 
     def write(self, buffer):
