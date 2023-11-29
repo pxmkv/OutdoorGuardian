@@ -14,7 +14,6 @@ The "Outdoor Guardian" is a cutting-edge embedded device designed to address the
 2. **LoraWAN Communication:** Enables communication over long distances without traditional networks.
 3. **Vital Sign Monitoring:** Tracks the user's vital signs in real-time.
 4. **Emergency Alert System:** Sends out an immediate distress signal in emergencies.
-5. **Altimeter and Barometer:** Provide real-time data on altitude and atmospheric pressure.
 6. **Long-lasting Battery:** Ensures users remain connected throughout their journey.
 
 ---
