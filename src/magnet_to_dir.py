@@ -1,11 +1,11 @@
 from machine import I2C, Pin 
 from QMC5883 import QMC5883L
-import ssd1306
+
 import time
 import math
 
 i2c = I2C(sda=Pin(21), scl=Pin(22))
-display = ssd1306.SSD1306_I2C(128, 64, i2c)
+
 compass = QMC5883L(scl=25, sda=4)
 
 def calculate_heading(x, y, declination=0):

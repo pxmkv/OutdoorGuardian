@@ -16,11 +16,11 @@ while True:
         # Check if the data is valid
         if my_gps.valid:
             print("valid! yay!!")
-            print('Latitude:', my_gps.latitude_string())
-            print('Longitude:', my_gps.longitude_string())
-            print('Satellites in View:', my_gps.satellites_in_view)
-            print('Satellites in Use:', my_gps.satellites_in_use)
-            print('Time Since Last Fix:', my_gps.time_since_fix())
+            print('Latitude:', str(my_gps.latitude))
+            print('Longitude:', str(my_gps.longitude))
+            # print('Satellites in View:', my_gps.satellites_in_view)
+            # print('Satellites in Use:', my_gps.satellites_in_use)
+            # print('Time Since Last Fix:', my_gps.time_since_fix())
         else:
             print("Waiting for GPS fix...")
             print("Raw GPS data:", my_sentence)
