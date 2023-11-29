@@ -6,9 +6,9 @@ from config import *
 
 device_spi = SPI(baudrate = 10000000, 
         polarity = 0, phase = 0, bits = 8, firstbit = SPI.MSB,
-        sck = Pin(device_config['sck'], Pin.OUT, Pin.PULL_DOWN),
-        mosi = Pin(device_config['mosi'], Pin.OUT, Pin.PULL_UP),
-        miso = Pin(device_config['miso'], Pin.IN, Pin.PULL_UP))
+        sck = Pin(5, Pin.OUT, Pin.PULL_DOWN),
+        mosi = Pin(27, Pin.OUT, Pin.PULL_UP),
+        miso = Pin(19, Pin.IN, Pin.PULL_UP))
 
 lora = SX127x(device_spi, pins=device_config, parameters=lora_parameters)
 print("LoRa Receiver")
@@ -21,7 +21,7 @@ while True:
     print("Checking for packet...")
     if lora.received_packet():
         print("Packet received")
-        lora.blink_led()
+        
         try:
             payload = lora.read_payload()
             print("Received payload:", payload)
@@ -29,4 +29,5 @@ while True:
             print("Error reading payload:", e)
     else:
         print("No packet received")
+        lora.blink_led()
     sleep(1)  # Adjust sleep time as needed

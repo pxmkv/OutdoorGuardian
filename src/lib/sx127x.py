@@ -202,16 +202,15 @@ class SX127x:
 
     def println(self, msg, implicit_header = False):
         self.set_lock(True)  # wait until RX_Done, lock and begin writing.
-
+	print('start')
         self.begin_packet(implicit_header)
 
         if isinstance(msg, str):
             message = msg.encode()
-            
         self.write(message)
-
+	print('writing')
         self.end_packet()
-
+	print('ended')
         self.set_lock(False) # unlock when done writing
         self.collect_garbage()
 
