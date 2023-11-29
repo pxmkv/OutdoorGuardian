@@ -457,19 +457,8 @@ class SX127x:
         return bytes(payload)
 
     def read_register(self, address, byteorder='big', signed=False):
-        try:
-            response = self.transfer(address & 0x7f)
-        
-            if response is None or len(response) == 0:
-                print("No response or empty response from SPI device.")
-                return None  # or handle it in another appropriate way
-
-            return int.from_bytes(response, byteorder)
-
-        except Exception as e:
-            print(f"An error occurred during SPI transfer: {e}")
-            return None  # or handle the exception appropriately
-
+           response = self.transfer(address & 0x7f)
+           return int.from_bytes(response, byteorder)
 
     def write_register(self, address, value):
         self.transfer(address | 0x80, value)
@@ -477,14 +466,10 @@ class SX127x:
 
     def transfer(self, address, value = 0x00):
         response = bytearray(1)
-
         self._pin_ss.value(0)
-
         self._spi.write(bytes([address]))
         self._spi.write_readinto(bytes([value]), response)
-
         self._pin_ss.value(1)
-
         return response
 
     def blink_led(self, times = 1, on_seconds = 0.1, off_seconds = 0.1):
