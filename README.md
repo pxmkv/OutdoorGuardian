@@ -67,4 +67,4 @@ Source codes, circuit diagrams, and technical documents.
 * LORA: MOSI=27, SCLK=5, CS=18, DIO=26, RST=23, MISO=19
 * GPS: TX=14, RX=34
 * Button: 35
-* Unused pins :36,39,34,14
+* Unused pins :36,39
