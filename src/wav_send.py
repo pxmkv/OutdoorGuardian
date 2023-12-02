@@ -17,7 +17,6 @@ e.active(True)
 peer = b'\xbb\xbb\xbb\xbb\xbb\xbb'   # MAC address of peer's wifi interface
 e.add_peer(peer)      # Must add_peer() before send()
 
-e.send(peer, "Starting...")
 
 # Function to send a file
 def send_file(file_path):
@@ -28,7 +27,15 @@ def send_file(file_path):
                 break
             e.send(peer, data)
             #time.sleep(0.01)  # To avoid sending data too quickly
-
 # Send a file
 send_file("/sd/{}".format('2.wav'))
-# e.send(peer, b'EOF')
+e.send(peer, b'end')
+
+def send_wav():
+    with open("/sd/{}".format('2.wav'), 'rb') as f:
+        while True:
+            data = f.read(250)  # ESP-NOW data limit per transmission
+            if not data:
+                break
+            e.send(peer, data)
+        e.send(peer, b'end')

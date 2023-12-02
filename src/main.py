@@ -28,6 +28,15 @@ peer = b'\xbb\xbb\xbb\xbb\xbb\xbb'   # MAC address of peer's wifi interface
 e.add_peer(peer)      # Must add_peer() before send()
 
 
+def send_wav():
+    with open("/sd/{}".format('2.wav'), 'rb') as f:
+        while True:
+            data = f.read(250)  # ESP-NOW data limit per transmission
+            if not data:
+                break
+            e.send(peer, data)
+        e.send(peer, b'end')
+
 
 def play():
     audio_out = I2S(
@@ -65,7 +74,7 @@ def play():
                 break # end play
             else:
                 _ = audio_out.write(wav_samples_mv[:num_read])
-    except (KeyboardInterru25pt, Exception) as e:
+    except (KeyboardInterrupt, Exception) as e:
         print("caught exception {} {}".format(type(e).__name__, e))
 
     # cleanup
@@ -156,7 +165,6 @@ def record():
         while not btn.value():
             # read a block of samples from the I2S microphone
             num_bytes_read_from_mic = audio_in.readinto(mic_samples_mv)
-            # e.send(peer, num_bytes_read_from_mic)
             print(num_bytes_read_from_mic)
             if time.ticks_ms()-past>=1000:
                 past=time.ticks_ms()
@@ -179,7 +187,8 @@ def record():
     wav.close()
     audio_in.deinit()
 
-
+def recv_thread():
+    return
 
 def audio_thread():
     while True:
