@@ -33,26 +33,27 @@ class QMC5883L():
         """device goes into a sleep state by writing to memory address 0x9, b '\ x00' """
         self.i2c.writeto_mem(13, 0x9, b'\x00')
 
+
     def read(self):
-        """performs a reading of the data in the position of momoria 0x00, by means of a buffer"""
-        data = self.data
-        #Read data register 00H ~ 05H.
-        
-        
+        """performs a reading of the data in the position of memory 0x00, by means of a buffer"""
+        data = bytearray(10)  # assuming 10 bytes needed for X, Y, Z, and status
+        # Read data registers for X, Y, Z axis and status.
         self.i2c.readfrom_mem_into(13, 0x00, data)
         time.sleep(0.005)
-        #self.i2c.readfrom_mem_into(13, 0x00, temperature)
-        #time.sleep(0.005)
-
-        x = (data[1] << 8) | data[0]
-        y = (data[3] << 8) | data[2]
-        z = (data[5] << 8) | data[4]
-        status =data[6]
-        temperature =z = (data[8] << 8) | data[7]
-        scale =3000
-        temperature_offest=50.0
-
-        return (x / scale, y / scale, z / scale, status,
-                (temperature / 100 + temperature_offest))
+        
+        x = (data[3] << 8) | data[4]
+        y = (data[7] << 8) | data[8]
+        z = (data[5] << 8) | data[6]
+        status = data[9]
+        # Assuming the temperature registers are known and follow a similar pattern
+        # temperature_msb = data[temperature_msb_index]
+        # temperature_lsb = data[temperature_lsb_index]
+        # temperature = (temperature_msb << 8) | temperature_lsb
+        # For now, we'll comment out the temperature calculation until we have the correct registers.
+        # temperature_offset = 50.0  # The offset will be used once the correct registers are known.
+    
+        scale = 3000  # The scale value might need adjustment based on sensor specifics
+    
+        return (x / scale, y / scale, z / scale, status)  # , (temperature / 100 + temperature_offset))
 
     
