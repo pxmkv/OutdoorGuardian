@@ -5,6 +5,8 @@ import uasyncio as asyncio
 from machine import I2S,Pin,SDCard,I2C
 import ssd1306
 import _thread
+import network
+import espnow
 
 #config
 sd = SDCard(slot=3)  # sck=18, mosi=23, miso=19, cs=5
@@ -14,6 +16,16 @@ display = ssd1306.SSD1306_I2C(128, 64, i2c)
 
 
 btn   = Pin(35,Pin.IN,Pin.PULL_UP)
+
+
+# A WLAN interface must be active to send()/recv()
+sta = network.WLAN(network.STA_IF)  # Or network.AP_IF
+sta.active(True)
+
+e = espnow.ESPNow()
+e.active(True)
+peer = b'\xbb\xbb\xbb\xbb\xbb\xbb'   # MAC address of peer's wifi interface
+e.add_peer(peer)      # Must add_peer() before send()
 
 
 
@@ -31,7 +43,6 @@ def play():
     )
     wav = open("/sd/{}".format('mic.wav'), "rb")
     _ = wav.seek(44)  # advance to first byte of Data section in WAV file
-
     # allocate sample array
     # memoryview used to reduce heap allocation
     wav_samples = bytearray(10000)
@@ -145,6 +156,8 @@ def record():
         while not btn.value():
             # read a block of samples from the I2S microphone
             num_bytes_read_from_mic = audio_in.readinto(mic_samples_mv)
+            # e.send(peer, num_bytes_read_from_mic)
+            print(num_bytes_read_from_mic)
             if time.ticks_ms()-past>=1000:
                 past=time.ticks_ms()
                 rec_time+=1
