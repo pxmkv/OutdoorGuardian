@@ -31,11 +31,4 @@ def send_file(file_path):
 send_file("/sd/{}".format('2.wav'))
 e.send(peer, b'end')
 
-def send_wav():
-    with open("/sd/{}".format('2.wav'), 'rb') as f:
-        while True:
-            data = f.read(250)  # ESP-NOW data limit per transmission
-            if not data:
-                break
-            e.send(peer, data)
-        e.send(peer, b'end')
+
