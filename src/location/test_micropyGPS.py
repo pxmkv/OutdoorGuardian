@@ -3,7 +3,7 @@ import micropyGPS
 import time
 
 # Initialize GPS
-uart = UART(1, baudrate=9600, tx=Pin(17), rx=Pin(16))  # Update pins according to your hardware setup
+uart = UART(1, baudrate=9600, tx=14, rx=34)  # Update pins according to your hardware setup
 my_gps = micropyGPS.MicropyGPS()
 
 while True:

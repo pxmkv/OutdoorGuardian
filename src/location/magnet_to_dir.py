@@ -31,7 +31,8 @@ with open(output_filename, "w") as file:
         x, y, _, _, _ = compass.read()  # Assuming sensor is an instance of your magnetometer class
         declination = 10  # Example declination value
         heading = calculate_heading(x, y, declination)
-        print("Heading:", heading, "degrees")
+        # print("Heading:", heading, "degrees")
+        print("x, y:", x, y)
 
         # Write the reading as a line in the CSV file
         line = f"{x},{y},{heading}\n"
