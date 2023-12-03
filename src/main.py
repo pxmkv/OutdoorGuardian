@@ -203,9 +203,9 @@ def recv_thread():
         while True:
             host, msg = e.recv()
             if msg:
-                has_message = True
                 # Check for the end of the file transmission
                 if msg == b'end':
+                    has_message = True
                     break
                 # Write the received chunk to the file
                 file.write(msg)
