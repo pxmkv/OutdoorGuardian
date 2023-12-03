@@ -191,7 +191,7 @@ has_message=False
 def send_wav():
     with open("/sd/{}".format('mic.wav'), 'rb') as f:
         while True:
-            data = f.read(250)  # ESP-NOW data limit per transmission
+            data = f.read(50)  # ESP-NOW data limit per transmission
             if not data:
                 break
             e.send(peer, data)
