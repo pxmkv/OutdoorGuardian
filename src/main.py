@@ -197,7 +197,7 @@ def send_file(file_path):
 
 def recv_thread():
     global has_message
-    while True
+    while True:
         with open("/sd/{}".format('recv.wav'), 'wb') as file:
             while True:
                 host, msg = e.recv()
