@@ -47,6 +47,7 @@ def play():
             if num_read == 0:
                 # end-of-file, advance to first byte of Data section
                 _ = wav.seek(44)
+                break
             else:
                 _ = audio_out.write(wav_samples_mv[:num_read])
     except (KeyboardInterrupt, Exception) as e:
@@ -57,17 +58,17 @@ def play():
 
     audio_out.deinit()
     print("Done")
-
-with open("/sd/{}".format('recv.wav'), 'wb') as file:
-    while True:
-        host, msg = e.recv()
-        if msg:
-            # Check for the end of the file transmission
-            if msg == b'end':
-                
-                break
-                
-            # Write the received chunk to the file
-            file.write(msg)
-play()
+while True:
+    with open("/sd/{}".format('recv.wav'), 'wb') as file:
+        while True:
+            host, msg = e.recv()
+            if msg:
+                # Check for the end of the file transmission
+                if msg == b'end':
+                    
+                    break
+                    
+                # Write the received chunk to the file
+                file.write(msg)
+    play()
 
