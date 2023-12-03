@@ -224,4 +224,8 @@ def audio_thread():
         display.invert(0)
         display.text('PRESS TO SPEAK', 0, 0, 1)
         display.show()
+thread1= _thread.start_new_thread(recv_thread, ())
+
 audio_thread()
+
+
