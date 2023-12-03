@@ -188,14 +188,14 @@ def record():
     audio_in.deinit()
 has_message=False
 
-def send_wav():
-    with open("/sd/{}".format('mic.wav'), 'rb') as f:
+def send_file(file_path):
+    with open(file_path, 'rb') as f:
         while True:
             data = f.read(50)  # ESP-NOW data limit per transmission
             if not data:
                 break
             e.send(peer, data)
-        e.send(peer, b'end')
+            #time.sleep(0.0001)  # To avoid sending data too quickly
 
 def recv_thread():
     global has_message
@@ -215,10 +215,11 @@ def audio_thread():
     while True:
         if not btn.value():
             record()
-            send_wav()
+            send_file("/sd/{}".format('mic.wav'))
+            e.send(peer, b'end')
         if has_message:
-            has_message=False
             play()
+            has_message=False
             # Write the received chunk to the file
         display.fill(0)
         display.invert(0)
