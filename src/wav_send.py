@@ -22,13 +22,13 @@ e.add_peer(peer)      # Must add_peer() before send()
 def send_file(file_path):
     with open(file_path, 'rb') as f:
         while True:
-            data = f.read(250)  # ESP-NOW data limit per transmission
+            data = f.read(50)  # ESP-NOW data limit per transmission
             if not data:
                 break
             e.send(peer, data)
-            #time.sleep(0.01)  # To avoid sending data too quickly
+            #time.sleep(0.0001)  # To avoid sending data too quickly
 # Send a file
-send_file("/sd/{}".format('2.wav'))
+send_file("/sd/{}".format('mic.wav'))
 e.send(peer, b'end')
 
 

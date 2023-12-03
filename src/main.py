@@ -88,7 +88,7 @@ def record():
 
     # ======= AUDIO CONFIGURATION =======
     WAV_FILE = "mic.wav"
-    RECORD_TIME_IN_SECONDS = 5
+    RECORD_TIME_IN_SECONDS = 8
     WAV_SAMPLE_SIZE_IN_BITS = 16
     FORMAT = I2S.MONO
     SAMPLE_RATE_IN_HZ = 22_050
