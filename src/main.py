@@ -56,22 +56,20 @@ def play():
     # memoryview used to reduce heap allocation
     wav_samples = bytearray(10000)
     wav_samples_mv = memoryview(wav_samples)
-
+    display.fill(0)
+    display.invert(1)
+    display.text('Playing', 0, 0, 1)
+    display.show()
     # continuously read audio samples from the WAV file
     # and write them to an I2S DAC
     print("==========  START PLAYBACK ==========")
     try:
-        display.fill(0)
-        display.invert(1)
-        display.text('Playing', 0, 0, 1)
-        display.show()
         while True:
             num_read = wav.readinto(wav_samples_mv)
             # end of WAV file?
             if num_read == 0:
                 # end-of-file, advance to first byte of Data section
                 _ = wav.seek(44)
-                break # end play
             else:
                 _ = audio_out.write(wav_samples_mv[:num_read])
     except (KeyboardInterrupt, Exception) as e:
@@ -199,16 +197,18 @@ def send_file(file_path):
 
 def recv_thread():
     global has_message
-    with open("/sd/{}".format('recv.wav'), 'wb') as file:
-        while True:
-            host, msg = e.recv()
-            if msg:
-                # Check for the end of the file transmission
-                if msg == b'end':
-                    has_message = True
-                    break
-                # Write the received chunk to the file
-                file.write(msg)
+    while True
+        with open("/sd/{}".format('recv.wav'), 'wb') as file:
+            while True:
+                host, msg = e.recv()
+                if msg:
+                    # Check for the end of the file transmission
+                    if msg == b'end':
+                        has_message = True
+                        break
+                    # Write the received chunk to the file
+                    file.write(msg)
+        play()
 
 def audio_thread():
     global has_message
@@ -218,7 +218,6 @@ def audio_thread():
             send_file("/sd/{}".format('mic.wav'))
             e.send(peer, b'end')
         if has_message:
-            play()
             has_message=False
             # Write the received chunk to the file
         display.fill(0)
