@@ -29,7 +29,7 @@ e.add_peer(peer)      # Must add_peer() before send()
 
 
 def send_wav():
-    with open("/sd/{}".format('2.wav'), 'rb') as f:
+    with open("/sd/{}".format('mic.wav'), 'rb') as f:
         while True:
             data = f.read(250)  # ESP-NOW data limit per transmission
             if not data:
@@ -50,7 +50,7 @@ def play():
         rate=11025,
         ibuf=40000,
     )
-    wav = open("/sd/{}".format('mic.wav'), "rb")
+    wav = open("/sd/{}".format('recv.wav'), "rb")
     _ = wav.seek(44)  # advance to first byte of Data section in WAV file
     # allocate sample array
     # memoryview used to reduce heap allocation
@@ -186,15 +186,40 @@ def record():
         print("caught exception {} {}".format(type(e).__name__, e))
     wav.close()
     audio_in.deinit()
+has_message=False
+
+def send_wav():
+    with open("/sd/{}".format('mic.wav'), 'rb') as f:
+        while True:
+            data = f.read(250)  # ESP-NOW data limit per transmission
+            if not data:
+                break
+            e.send(peer, data)
+        e.send(peer, b'end')
 
 def recv_thread():
-    return
+    global has_message
+    with open("/sd/{}".format('recv.wav'), 'wb') as file:
+        while True:
+            host, msg = e.recv()
+            if msg:
+                has_message = True
+                # Check for the end of the file transmission
+                if msg == b'end':
+                    break
+                # Write the received chunk to the file
+                file.write(msg)
 
 def audio_thread():
+    global has_message
     while True:
         if not btn.value():
             record()
+            send_wav()
+        if has_message:
+            has_message=False
             play()
+            # Write the received chunk to the file
         display.fill(0)
         display.invert(0)
         display.text('PRESS TO SPEAK', 0, 0, 1)
