@@ -214,6 +214,7 @@ def audio_thread():
         display.text('PRESS TO SPEAK', 0, 0, 1)
         display.show()
 
+#thread1= _thread.start_new_thread(audio_thread, ())
 
 while True:
     with open("/sd/{}".format('recv.wav'), 'wb') as file:
@@ -227,5 +228,5 @@ while True:
                     
                 # Write the received chunk to the file
                 file.write(msg)
-    play()
+        play()
 

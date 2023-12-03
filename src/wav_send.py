@@ -28,7 +28,7 @@ def send_file(file_path):
             e.send(peer, data)
             #time.sleep(0.0001)  # To avoid sending data too quickly
 # Send a file
-send_file("/sd/{}".format('mic.wav'))
+send_file("/sd/{}".format('2.wav'))
 e.send(peer, b'end')
 
 
