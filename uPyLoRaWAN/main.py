@@ -1,5 +1,5 @@
-from lora import lorawanreceive
-from lora import lorawansend
+from examples import LoRaSender
+from examples import LoRaReceiver
 
 from config import *
 from machine import Pin, SPI
@@ -13,10 +13,11 @@ device_spi = SPI(baudrate = 10000000,
 
 lora = SX127x(device_spi, pins=device_config, parameters=lora_parameters)
 
-example = 'sender'
+#example = 'sender'
+example = 'receiver'
 
 if __name__ == '__main__':
     if example == 'sender':
-        lorawansend.send(lora)
+        LoRaSender.send(lora)
     if example == 'receiver':
-        lorawanreceive.receive(lora)
+        LoRaReceiver.receive(lora)

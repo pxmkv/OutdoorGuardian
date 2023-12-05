@@ -1,0 +1,21 @@
+# User configuration for micropython shell49
+# Machine generated on 2023-11-21 10:27:47
+# Use the config command in shell49 to modify
+
+{'boards': {'default': {'baudrate': 115200,
+                        'board': 'HUZZAH32',
+                        'buffer_size': 1024,
+                        'firmware_url': 'https://people.eecs.berkeley.edu/~boser/iot49/firmware',
+                        'flash_baudrate': 921600,
+                        'flash_options': '--chip esp32 --before default_reset '
+                                         '--after hard_reset write_flash -z '
+                                         '--flash_mode dio --flash_freq 40m '
+                                         '--flash_size detect ',
+                        'host_dir': '.',
+                        'password': 'python',
+                        'remote_dir': '/flash',
+                        'rsync_excludes': '.*,__*__,config.py',
+                        'rsync_includes': '*.py,*.json,*.txt,*.html',
+                        'startup_dir': '.',
+                        'time_offset': 946684800,
+                        'user': 'micro'}}}
