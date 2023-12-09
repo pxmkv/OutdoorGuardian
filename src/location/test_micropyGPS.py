@@ -11,6 +11,13 @@ uart = UART(1, baudrate=9600, tx=17, rx=16)  # Update pins according to your har
 my_gps = micropyGPS.MicropyGPS()
 
 
+def is_float(value):
+    try:
+        float(value)
+        return True
+    except ValueError:
+        return False
+
 def string_to_array(input_str):
     try:
         # Remove outer brackets
@@ -23,17 +30,15 @@ def string_to_array(input_str):
         nested_list_str = parts[0].strip('[]')
         nested_list = []
         for x in nested_list_str.split(', '):
-            if '.' in x:
-                nested_list.append(float(x))
-            elif x.isdigit():
-                nested_list.append(int(x))
+            if is_float(x):
+                nested_list.append(float(x) if '.' in x or 'e' in x.lower() or '-' in x else int(x))
             else:
                 raise ValueError(f"Invalid number format: {x}")
 
         # Process the remaining parts
         float_values = []
         for x in parts[1:]:
-            if x.replace('.', '', 1).isdigit():
+            if is_float(x):
                 float_values.append(float(x))
             else:
                 raise ValueError(f"Invalid number format: {x}")
@@ -44,6 +49,8 @@ def string_to_array(input_str):
     except Exception as e:
         print(f"Error processing input: {e}")
         return None
+
+
 
     
 def convert_to_decimal(loc):
