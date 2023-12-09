@@ -59,6 +59,10 @@ def play():
     audio_out.deinit()
     print("Done")
 while True:
+    display.fill(0)
+    display.invert(0)
+    display.text('Idle', 0, 0, 1)
+    display.show()
     with open("/sd/{}".format('recv.wav'), 'wb') as file:
         while True:
             host, msg = e.recv()
