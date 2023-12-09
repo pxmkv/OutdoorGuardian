@@ -14,7 +14,6 @@ The "Outdoor Guardian" is a cutting-edge embedded device designed to address the
 2. **LoraWAN Communication:** Enables communication over long distances without traditional networks.
 3. **Vital Sign Monitoring:** Tracks the user's vital signs in real-time.
 4. **Emergency Alert System:** Sends out an immediate distress signal in emergencies.
-5. **Altimeter and Barometer:** Provide real-time data on altitude and atmospheric pressure.
 6. **Long-lasting Battery:** Ensures users remain connected throughout their journey.
 
 ---
@@ -59,3 +58,13 @@ Analyze successes and challenges. Discuss future improvements and potential appl
 
 ## 6. Appendices
 Source codes, circuit diagrams, and technical documents.
+
+
+# Pin out (LilyGO LORA32)
+* I2S Speaker & Mic: SCK/BCK_PIN =4, WS/LCK_PIN =25, SD/DIN_PIN =0, MIC_SD=12
+* I2C: SDA =21, SCL =22
+* SDCARD: slot=3 (sck=14, mosi=15, miso=2, cs=13)
+* LORA: MOSI=27, SCLK=5, CS=18, DIO=26, RST=23, MISO=19
+* GPS: TX=14, RX=34
+* Button: 35
+* Unused pins :36,39

@@ -2,13 +2,15 @@
 # Some ports need to import 'sleep' from 'time' module
 from machine import sleep, SoftI2C, Pin
 from utime import ticks_diff, ticks_us
-
+import ssd1306
+from time import sleep
 from max30102 import MAX30102, MAX30105_PULSE_AMP_MEDIUM
+from QMC5883 import QMC5883L
 
 
 def main():
     # I2C software instance
-    i2c = SoftI2C(sda=Pin(23),  # Here, use your I2C SDA pin
+    i2c = SoftI2C(sda=Pin(21),  # Here, use your I2C SDA pin
                   scl=Pin(22),  # Here, use your I2C SCL pin
                   freq=400000)  # Fast: 400kHz, slow: 100kHz
 
@@ -22,6 +24,8 @@ def main():
 
     # Sensor instance
     sensor = MAX30102(i2c=i2c)  # An I2C instance is required
+    display = ssd1306.SSD1306_I2C(128, 64, i2c)
+    qmc=QMC5883L(scl=22, sda=21)
 
     # Scan I2C bus to ensure that the sensor is connected
     if sensor.i2c_address not in i2c.scan():
@@ -68,7 +72,7 @@ def main():
 
     t_start = ticks_us()  # Starting time of the acquisition
     samples_n = 0  # Number of samples that have been collected
-
+    #display.invert(1)
     while True:
         # The check() method has to be continuously polled, to check if
         # there are new readings into the sensor's FIFO queue. When new
@@ -80,9 +84,23 @@ def main():
             # Access the storage FIFO and gather the readings (integers)
             red_reading = sensor.pop_red_from_storage()
             ir_reading = sensor.pop_ir_from_storage()
+            x, y, z, status, temp =qmc.read()
 
+            display.fill(0)
+            
+            # sleep(0.5)
             # Print the acquired data (so that it can be plotted with a Serial Plotter)
+            print (x, y, z, status, temp)
             print(red_reading, ",", ir_reading)
+            display.text(str(red_reading), 0, 0, 1)
+            display.text(str(ir_reading), 0, 10, 1)
+            display.text(str(x), 0, 20, 1)
+            display.text(str(y), 0, 30, 1)
+            display.text(str(z), 0, 40, 1)
+            display.show()
+
+
+
 
             # Compute the real frequency at which we receive data
             if compute_frequency:
