@@ -38,7 +38,7 @@ class MicropyGPS(object):
                 'June', 'July', 'August', 'September', 'October',
                 'November', 'December')
 
-    def __init__(self, local_offset=0, location_formatting='ddm'):
+    def __init__(self, local_offset=-8, location_formatting='ddm'):
         """
         Setup GPS Object Status Flags, Internal Data Registers, etc
             local_offset (int): Timzone Difference to UTC

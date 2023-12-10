@@ -65,13 +65,10 @@ def main():
     # print(sensor.read_temperature())
 
     # Select whether to compute the acquisition frequency or not
-    compute_frequency = True
 
     print("Starting data acquisition from RED & IR registers...", '\n')
     sleep(1)
 
-    t_start = ticks_us()  # Starting time of the acquisition
-    samples_n = 0  # Number of samples that have been collected
     #display.invert(1)
     while True:
         # The check() method has to be continuously polled, to check if
@@ -101,16 +98,6 @@ def main():
 
 
 
-
-            # Compute the real frequency at which we receive data
-            if compute_frequency:
-                if ticks_diff(ticks_us(), t_start) >= 999999:
-                    f_HZ = samples_n
-                    samples_n = 0
-                    print("acquisition frequency = ", f_HZ)
-                    t_start = ticks_us()
-                else:
-                    samples_n = samples_n + 1
 
 
 if __name__ == '__main__':
