@@ -314,6 +314,7 @@ t_mode=False #tracking mode
 buf=['PRESS TO SPEAK','','','','','']
 data=[[13, 50, 25.0], 37.8752, -122.2577]
 last_pack_time = 0
+
 def callback(pack):
     global t_mode,buf, data,last_pack_time
     print('lora received')
@@ -322,6 +323,7 @@ def callback(pack):
     last_pack_time=time.ticks_ms()//1000
 
 def send_location():
+    heart.set_active_leds_amplitude(MAX30105_PULSE_AMP_LOWEST)
     buf[3]='EMERGENCY'
     buf[4]='     MODE'
     disp()
