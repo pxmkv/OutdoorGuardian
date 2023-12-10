@@ -27,6 +27,25 @@ class QMC5883L():
         # Reserve memory for the raw xyz measurements
         self.data = bytearray(6)
         
+	try:
+	    with open('config.dat') as f:
+	        lines = f.readlines() #load constants from config.dat
+	        
+	    self.offset_x = lines[0][0]
+	    self.offset_y = lines[0][1]
+	    self.offset_z = lines[0][2]
+	    #configs=json.loads(lines[0])
+	except OSError: #no config.dat found, will use default config data and save to config.dat
+	    configs = [651.53, 375.6, 24.38]
+	    with open('config.dat', "w") as f: 
+	        f.write(''.join(str(configs)))
+
+        
+    def update(self, raw): #update config settings 
+
+	configs = raw# Load the string as JSON and convert it to a list
+	with open('config.dat', "w") as f:
+	  f.write(''.join(str(configs)))
 
         
     
@@ -43,6 +62,14 @@ class QMC5883L():
         self.offset_x = sum_x / num_samples
         self.offset_y = sum_y / num_samples
         self.offset_z = sum_z / num_samples
+        
+        offsets = [self.offset_x, self.offset_y, self.offset_z]
+        print(offsets)
+        
+        self.update(offsets)
+        
+
+    
 
     def read_calibrated(self):
         x, y, z = self.read()
