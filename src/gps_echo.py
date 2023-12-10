@@ -13,6 +13,7 @@ import ssd1306
 import time
 import micropyGPS
 import json
+import math
 
 # using default address 0x3C
 i2c = I2C(sda=Pin(21), scl=Pin(22))
@@ -52,6 +53,28 @@ lora = LoRa(
 
 
 
+def haversine(lat1, lon1, lat2, lon2):
+    # Radius of the Earth in km
+    R = 6371.0
+
+    # Convert coordinates from degrees to radians
+    lat1_rad = math.radians(lat1)
+    lon1_rad = math.radians(lon1)
+    lat2_rad = math.radians(lat2)
+    lon2_rad = math.radians(lon2)
+
+    # Difference in coordinates
+    dlat = lat2_rad - lat1_rad
+    dlon = lon2_rad - lon1_rad
+
+    # Haversine formula
+    a = math.sin(dlat / 2)**2 + math.cos(lat1_rad) * math.cos(lat2_rad) * math.sin(dlon / 2)**2
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+
+    distance = R * c
+    return distance
+
+
 def string_to_array(input_str):
     try:
         # Remove outer brackets
@@ -86,22 +109,29 @@ def string_to_array(input_str):
 
 
 # Receive handler
-def handler(x):
-    # Try to parse the received data
-    parsed_data = string_to_array(x)
-    if parsed_data is not None:
-        # If parsing is successful and data is in the correct format
-        print(parsed_data)
-        display.text(str(parsed_data), 0, 0, 1)
-        display.show()
-        display.fill(0)
-        
-        
+def handler(received_packet):
+    # Parse the received packet
+    parsed_data = string_to_array(received_packet)
+    if parsed_data is not None and len(parsed_data) == 3 and isinstance(parsed_data[1], float) and isinstance(parsed_data[2], float):
+        # Received packet is valid and contains GPS data
+        received_latitude, received_longitude = parsed_data[1], parsed_data[2]
 
+        # Get current GPS data
+        current_latitude, current_longitude = get_current_gps_data()  # Implement this function
 
+        # Print current GPS data
+        print(f"Current GPS location: Latitude {current_latitude}, Longitude {current_longitude}")
+
+        # Print received GPS data
+        print(f"Received GPS location: Latitude {received_latitude}, Longitude {received_longitude}")
+
+        # Calculate distance using Haversine formula
+        distance = haversine(current_latitude, current_longitude, received_latitude, received_longitude)
+        print(f"Distance to received location: {distance:.2f} km")
     else:
-        # If the data is not in the correct format
-        print("Invalid data format received")
+        print("Invalid packet format received")
+
+
 
 
 # Set handler
