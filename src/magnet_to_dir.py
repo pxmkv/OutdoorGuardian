@@ -3,12 +3,13 @@ from QMC5883 import QMC5883L
 
 import time
 import math
+import os
 
 # i2c = I2C(sda=Pin(21), scl=Pin(22))
 
 compass = QMC5883L(scl=22, sda=23)
 
-def calculate_heading(x, y, declination=0):
+def calculate_heading(x, y, declination=-14):
     heading = math.atan2(y, x)
     heading_degrees = math.degrees(heading)
     heading_degrees += declination
@@ -20,24 +21,19 @@ def calculate_heading(x, y, declination=0):
         heading_degrees -= 360
 
     return heading_degrees 
+    
+    
 
-output_filename = "compass_readings.csv"
-header = "X,Y,Z,Heading\n"
 
-with open(output_filename, "w") as file:
-    file.write(header)  # Write the header to the CSV file
+# Perform calibration (ensure the sensor is in a 'neutral' magnetic environment)
+compass.calibrate(num_samples=200)
+print(compass.offset_x, compass.offset_y, compass.offset_z)
 
-    for i in range(500):
-        x, y, z, _, _ = compass.read()  # Include Z-axis reading
-        declination = 10  # Example declination value
-        heading = calculate_heading(x, y, declination)
-        print("Heading:", heading, "degrees")
-
-        # Write the reading as a line in the CSV file, including Z value
-        line = f"{x},{y},{z},{heading}\n"
-        file.write(line)
-
-        time.sleep(0.1)
-
-print(f"Data written to {output_filename}")
+# Now use read_calibrated() for compensated readings
+for i in range(100):
+    x, y, z = compass.read_calibrated()
+    # print('xyz ', x, y, z)
+    print(calculate_heading(x, y), " degrees")
+    time.sleep(0.5)
+    
 
