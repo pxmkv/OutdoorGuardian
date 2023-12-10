@@ -12,7 +12,10 @@ import espnow
 from max30102 import MAX30102, MAX30105_PULSE_AMP_MEDIUM, MAX30105_PULSE_AMP_LOWEST
 from time import sleep
 from lora import LoRa
+from gps_handler import setup_GPS, update_GPS, get_current_location
+
 import math
+
 #config
 # sd = SDCard(slot=3)  # sck=18, mosi=23, miso=19, cs=5
 # os.mount(sd, "/sd")
@@ -36,8 +39,7 @@ heart.set_fifo_average(8)
 heart.set_active_leds_amplitude(MAX30105_PULSE_AMP_MEDIUM)
 
 # Initialize GPS
-uart = UART(1, baudrate=9600, tx=14, rx=34)  # Update pins according to your hardware setup
-my_gps = micropyGPS.MicropyGPS()
+setup_gps()
 data = [[13, 50, 25.0], 37.8752, -122.2577]
 last_saved= [[13, 50, 25.0], 37.8757, -122.2587]
 
@@ -320,17 +322,8 @@ def is_float(value):
 def get_packet():
     global last_saved
     try:    
-        if uart.any():
-            my_sentence = uart.readline().decode('utf-8')
-            for x in my_sentence:
-                my_gps.update(x)
-            # Check if the data is valid
-            if my_gps.valid:
-                last_saved = [my_gps.timestamp, convert_to_decimal(my_gps.latitude), convert_to_decimal(my_gps.longitude)]
-            else:        
-                print("Waiting for GPS fix...")
-        else:
-            print("No data from GPS module.")
+        update_GPS()
+        last_saved = get_current_location()
     except Exception as e:
         print(f"Error processing input: {e}")
     return last_saved
