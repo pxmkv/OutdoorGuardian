@@ -102,7 +102,7 @@ def play():
         mode=I2S.TX,
         bits=16,
         format=I2S.MONO,
-        rate=20000,
+        rate=11025,
         ibuf=10000,
     )
     wav = open('recv.wav', "rb")

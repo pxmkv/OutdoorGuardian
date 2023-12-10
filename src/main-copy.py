@@ -12,7 +12,7 @@ import espnow
 from max30102 import MAX30102, MAX30105_PULSE_AMP_MEDIUM, MAX30105_PULSE_AMP_LOWEST
 from time import sleep
 from lora import LoRa
-
+import math
 #config
 # sd = SDCard(slot=3)  # sck=18, mosi=23, miso=19, cs=5
 # os.mount(sd, "/sd")
@@ -38,7 +38,8 @@ heart.set_active_leds_amplitude(MAX30105_PULSE_AMP_MEDIUM)
 # Initialize GPS
 uart = UART(1, baudrate=9600, tx=14, rx=34)  # Update pins according to your hardware setup
 my_gps = micropyGPS.MicropyGPS()
-last_saved = str([[13, 50, 25.0], 37.8752, -122.2577])
+data = [[13, 50, 25.0], 37.8752, -122.2577]
+last_saved= [[13, 50, 25.0], 37.8757, -122.2587]
 
 
 # Wifi initialization
@@ -102,7 +103,7 @@ def play():
         mode=I2S.TX,
         bits=16,
         format=I2S.MONO,
-        rate=20000,
+        rate=11025,
         ibuf=10000,
     )
     wav = open('recv.wav', "rb")
@@ -154,8 +155,7 @@ def send_wav():
 
 def haversine(coord1, coord2):
     # Radius of the Earth in km
-    R = 6371.0
-
+    R =  6378137.0
     # Extract latitude and longitude from the coordinates
     lat1, lon1 = coord1[1], coord1[2]
     lat2, lon2 = coord2[1], coord2[2]
@@ -173,8 +173,7 @@ def haversine(coord1, coord2):
     # Haversine formula
     a = math.sin(dlat / 2)**2 + math.cos(lat1_rad) * math.cos(lat2_rad) * math.sin(dlon / 2)**2
     c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
-
-    distance = R * c
+    distance = R * c 
     return distance
 
 
@@ -285,37 +284,6 @@ def is_float(value):
     except ValueError:
         return False
 
-def string_to_array(input_str):
-    try:
-        # Remove outer brackets
-        inner_str = input_str.strip('[]')
-
-        # Split the string into main parts
-        parts = inner_str.split('], ')
-
-        # Process first part (nested list)
-        nested_list_str = parts[0].strip('[]')
-        nested_list = []
-        for x in nested_list_str.split(', '):
-            if is_float(x):
-                nested_list.append(float(x) if '.' in x or 'e' in x.lower() or '-' in x else int(x))
-            else:
-                raise ValueError(f"Invalid number format: {x}")
-
-        # Process the remaining parts
-        float_values = []
-        for x in parts[1:]:
-            if is_float(x):
-                float_values.append(float(x))
-            else:
-                raise ValueError(f"Invalid number format: {x}")
-
-        # Combine and return the result
-        return [nested_list] + float_values
-
-    except Exception as e:
-        print(f"Error processing input: {e}")
-        return None
 
 def get_packet():
     global last_saved
@@ -333,18 +301,18 @@ def get_packet():
             print("No data from GPS module.")
     except Exception as e:
         print(f"Error processing input: {e}")
-    return last_saved
+    return str(last_saved)
 
 t_mode=False #tracking mode
 
 buf=['PRESS TO SPEAK','','','','','']
-data=[[13, 50, 25.0], 37.8752, -122.2577]
 last_pack_time = 0
 
 def callback(pack):
     global t_mode,buf, data,last_pack_time
+    print('pack',pack)
     print('lora received')
-    data = string_to_array(pack)
+    data = json.loads( pack.decode())
     t_mode=True
     last_pack_time=time.ticks_ms()//1000
 
@@ -369,7 +337,6 @@ def main():
                 break
             heart.check()
             if heart.available() :
-                # red = heart.pop_red_from_storage()
                 ir  = heart.pop_ir_from_storage()
                 if ir < 10000 or ir > 20000:
                     send_location()
@@ -379,9 +346,9 @@ def main():
         
         #Finish this part (katie)
         
-        buf[1] = 'Dist' + str(haversine(last_saved, data))
+        buf[1] = 'Dist ' + str(haversine(last_saved, data)) +'m'
         #buf[2] = 'Dir' + str(get_direction(data))
-
+        
         time_diff=time.ticks_ms()//1000-last_pack_time
         buf[5]='RECD ' +str(time_diff) + 's ago'# update buffer
         disp() # show display
