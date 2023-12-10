@@ -130,8 +130,7 @@ def get_packet():
                 return ""
                 # print("Raw GPS data:", my_sentence)
                 #print(convert_to_decimal(sample))
-                #print_size_in_kb(sample)
-                #print_size_in_kb(convert_to_decimal(sample))
+
 
             # Optional: Log GPS data
             # my_gps.start_logging('gps_log.txt')
