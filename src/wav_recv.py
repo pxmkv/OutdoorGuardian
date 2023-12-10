@@ -4,8 +4,6 @@ import espnow
 from machine import I2S,Pin,SDCard,I2C
 import ssd1306
 
-sd = SDCard(slot=3)  # sck=18, mosi=23, miso=19, cs=5
-os.mount(sd, "/sd")
 i2c = I2C(sda=Pin(21), scl=Pin(22))
 display = ssd1306.SSD1306_I2C(128, 64, i2c)
 # A WLAN interface must be active to send()/recv()
@@ -27,7 +25,7 @@ def play():
         rate=11025,
         ibuf=40000,
     )
-    wav = open("/sd/{}".format('recv.wav'), "rb")
+    wav = open('recv.wav', "rb")
     _ = wav.seek(44)  # advance to first byte of Data section in WAV file
     # allocate sample array
     # memoryview used to reduce heap allocation
@@ -63,7 +61,7 @@ while True:
     display.invert(0)
     display.text('Idle', 0, 0, 1)
     display.show()
-    with open("/sd/{}".format('recv.wav'), 'wb') as file:
+    with open('recv.wav', 'wb') as file:
         while True:
             host, msg = e.recv()
             if msg:
@@ -75,4 +73,3 @@ while True:
                 # Write the received chunk to the file
                 file.write(msg)
     play()
-

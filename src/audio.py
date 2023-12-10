@@ -12,7 +12,6 @@ from time import sleep
 
 #config
 sd = SDCard(slot=3)  # sck=18, mosi=23, miso=19, cs=5
-os.mount(sd, "/sd")
 i2c = I2C(sda=Pin(21), scl=Pin(22))
 display = ssd1306.SSD1306_I2C(128, 64, i2c)
 
@@ -30,26 +29,17 @@ peer = b'\xbb\xbb\xbb\xbb\xbb\xbb'   # MAC address of peer's wifi interface
 e.add_peer(peer)      # Must add_peer() before send()
 
 
-def send_wav():
-    with open("/sd/{}".format('mic.wav'), 'rb') as f:
-        while True:
-            data = f.read(250)  # ESP-NOW data limit per transmission
-            if not data:
-                break
-            e.send(peer, data)
-        e.send(peer, b'end')
+
 
 
 
 def record():
-
-
     # ======= AUDIO CONFIGURATION =======
     WAV_FILE = "mic.wav"
     RECORD_TIME_IN_SECONDS = 8
     WAV_SAMPLE_SIZE_IN_BITS = 16
     FORMAT = I2S.MONO
-    SAMPLE_RATE_IN_HZ = 22_050
+    SAMPLE_RATE_IN_HZ = 22050
     # ======= AUDIO CONFIGURATION =======
 
     format_to_channels = {I2S.MONO: 1, I2S.STEREO: 2}
@@ -80,7 +70,7 @@ def record():
         return o
 
 
-    wav = open("/sd/{}".format(WAV_FILE), "wb")
+    wav = open(WAV_FILE, "wb")
 
     # create header for WAV file and write to SD card
     wav_header = create_wav_header(
@@ -155,7 +145,6 @@ def send_file(file_path):
             e.send(peer, data)
             #time.sleep(0.0001)  # To avoid sending data too quickly
 
-
 def play():
     audio_out = I2S(
         1,
@@ -168,7 +157,7 @@ def play():
         rate=11025,
         ibuf=40000,
     )
-    wav = open("/sd/{}".format('recv.wav'), "rb")
+    wav = open('mic.wav', "rb")
     _ = wav.seek(44)  # advance to first byte of Data section in WAV file
     # allocate sample array
     # memoryview used to reduce heap allocation
@@ -200,23 +189,23 @@ def play():
     audio_out.deinit()
     print("Done")
 
-
 def audio_thread():
     global has_message
     while True:
         if not btn.value():
             record()
-            send_file("/sd/{}".format('mic.wav'))
-            e.send(peer, b'end')
-        if has_message:
-            has_message=False
+            play()
+            # send_file('mic.wav')
+            # e.send(peer, b'end')
+        # if has_message:
+        #     has_message=False
             # Write the received chunk to the file
         display.fill(0)
         display.invert(0)
         display.text('PRESS TO SPEAK', 0, 0, 1)
         display.show()
 
-#thread1= _thread.start_new_thread(audio_thread, ())
+thread1= _thread.start_new_thread(audio_thread, ())
 """
 while True:
     with open("/sd/{}".format('recv.wav'), 'wb') as file:
@@ -232,4 +221,4 @@ while True:
                 file.write(msg)
         play()
 """
-audio_thread()
+#audio_thread()
