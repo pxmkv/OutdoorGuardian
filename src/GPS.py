@@ -15,7 +15,6 @@ while True:
         my_sentence = uart.readline().decode('utf-8')
         for x in my_sentence:
             my_gps.update(x)
-            
 
         # Check if the data is valid
         if my_gps.valid:
