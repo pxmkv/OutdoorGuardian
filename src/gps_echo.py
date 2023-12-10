@@ -3,13 +3,16 @@
 # The pin configuration used here is for the first LoRa module of these boards:
 # https://makerfabs.com/esp32-lora-gateway.html
 
+
 from lora import LoRa
-from machine import Pin, SPI
+from machine import Pin, SPI, UART
 from time import sleep
 
 from machine import Pin, I2C
 import ssd1306
 import time
+import micropyGPS
+import json
 
 # using default address 0x3C
 i2c = I2C(sda=Pin(21), scl=Pin(22))
