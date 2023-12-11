@@ -29,11 +29,12 @@ class QMC5883L():
         
 	try:
 	    with open('config.dat') as f:
-	        lines = f.readlines() #load constants from config.dat
-	        
-	    self.offset_x = lines[0][0]
-	    self.offset_y = lines[0][1]
-	    self.offset_z = lines[0][2]
+	        line = f.readline().strip()  # Read the first line
+		# Assuming the line is in the format "[x, y, z]"
+		offsets = line.strip('[]').split(',')  # Remove brackets and split by comma
+		self.offset_x = float(offsets[0].strip())
+		self.offset_y = float(offsets[1].strip())
+		self.offset_z = float(offsets[2].strip())
 	    #configs=json.loads(lines[0])
 	except OSError: #no config.dat found, will use default config data and save to config.dat
 	    configs = [651.53, 375.6, 24.38]

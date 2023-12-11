@@ -26,14 +26,14 @@ def calculate_heading(x, y, declination=-14):
 
 
 # Perform calibration (ensure the sensor is in a 'neutral' magnetic environment)
-compass.calibrate(num_samples=200)
-print(compass.offset_x, compass.offset_y, compass.offset_z)
+#compass.calibrate(num_samples=200)
+#print(compass.offset_x, compass.offset_y, compass.offset_z)
 
 # Now use read_calibrated() for compensated readings
 for i in range(100):
     x, y, z = compass.read_calibrated()
-    # print('xyz ', x, y, z)
-    print(calculate_heading(x, y), " degrees")
+    print('xyz ', x, y, z)
+    #print(calculate_heading(x, y), " degrees")
     time.sleep(0.5)
     
 
