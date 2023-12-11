@@ -391,14 +391,15 @@ def main():
         else:
             display.invert(0)
         if dir_angle <0:
-            buf[3]= "Right " + str(abs(dir_angle))+ " degrees"
+            #buf[3]= "Right " + str(abs(dir_angle))+ " degrees"
         else:
-            buf[3]= "Left  " + str(dir_angle) + " degrees"
+            #buf[3]= "Left  " + str(dir_angle) + " degrees"
             
-         
+        buf[3] = "Compass " + str(compass.calculate_heading())
+        buf[4] = "Bearing " + str(calculate_bearing(packs, data) ))
 
 
-        buf[4] = 'Lora Dist ' + last_rssi 
+        # buf[4] = 'Lora Dist ' + last_rssi 
         time_diff=time.ticks_ms()//1000-last_pack_time
         buf[5]='RECD ' +str(time_diff) + 's ago'# update buffer
         disp() # show display
