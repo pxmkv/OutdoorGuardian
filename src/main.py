@@ -331,13 +331,14 @@ t_mode=False #tracking mode
 
 buf=['PRESS TO SPEAK','','','','','']
 last_pack_time = 0
-
+last_rssi=''
 def callback(pack):
-    global t_mode,buf, data,last_pack_time
+    global t_mode,buf, data,last_pack_time, last_rssi
     print('lora_pack',pack)
     try:
         tmp=json.loads(pack.decode())
         data = tmp
+        last_rssi=str(lora.get_rssi())
     except Exception as e:
         print(f"Error processing input: {e}")
     t_mode=True
@@ -351,7 +352,7 @@ def send_location():
     while True:
         lora.send(str(get_packet()))
         print('lora sent')
-        sleep(1)
+        sleep(0.5)
 
 
 # lora.on_recv(callback)
@@ -370,16 +371,14 @@ def main():
             sleep(1)
 
         #tracking mode
-        
-        #Finish this part (katie)
-        print(get_packet(),data)
-        buf[2] = 'Dist ' + str(haversine(get_packet(), data)) +' m'
-        buf[3] = 'Dir ' + str(calculate_bearing(get_packet(), data)) + ' deg'
-        
+        packs=get_packet()
+        buf[2] = 'Dist ' + str(haversine(packs, data)) +' m'
+        buf[3] = 'Dir ' + str(calculate_bearing(packs, data)) + ' deg'
+        buf[4] = 'RSSI ' + last_rssi + ' dBm'
         time_diff=time.ticks_ms()//1000-last_pack_time
         buf[5]='RECD ' +str(time_diff) + 's ago'# update buffer
         disp() # show display
-        sleep(1)#update every second
+        sleep(0.2)#update every 0.2 second
 
 
 def recv_audio():
@@ -393,13 +392,16 @@ def recv_audio():
                     if msg == b'end':
                         break
                     file.write(msg)
+                else:
+                    sleep(0.1)#reduce loop time
+
         buf[0]='PLAYING'
         disp() 
         play()
         has_message=False
         buf[0]='PRESS TO SPEAK'
         disp() 
-
+        
 def send_audio():
     global has_message
     while True:
@@ -413,6 +415,8 @@ def send_audio():
             e.send(peer, b'end')
             buf[0]='PRESS TO SPEAK'
             disp() 
+        else:
+            sleep(0.1)#reduce loop time
 
 # main program
 
