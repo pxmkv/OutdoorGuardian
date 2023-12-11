@@ -31,8 +31,8 @@ def calculate_heading(x, y, declination=-14):
 
 # Now use read_calibrated() for compensated readings
 for i in range(100):
-    x, y, z = compass.read_calibrated()
-    print('xyz ', x, y, z)
+    
+    print(compass.calculate_heading())
     #print(calculate_heading(x, y), " degrees")
     time.sleep(0.5)
     

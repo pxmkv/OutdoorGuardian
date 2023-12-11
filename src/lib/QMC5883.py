@@ -49,6 +49,19 @@ class QMC5883L():
 	  f.write(''.join(str(configs)))
 
         
+    def calculate_heading(self, declination=-14):
+        x, y, _ = self.read_calibrated()
+	heading = math.atan2(y, x)
+        heading_degrees = math.degrees(heading)
+        heading_degrees += declination
+
+	    # Normalize to 0-360
+        if heading_degrees < 0:
+    	    heading_degrees += 360
+	elif heading_degrees > 360:
+       	    heading_degrees -= 360
+
+        return heading_degrees 
     
     def calibrate(self, num_samples=100):
         sum_x, sum_y, sum_z = 0, 0, 0
