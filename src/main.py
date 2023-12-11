@@ -102,8 +102,8 @@ def play():
         sd=Pin(0),
         mode=I2S.TX,
         bits=16,
-        format=I2S.MONO,
-        rate=11025,
+        format=I2S.STEREO,
+        rate=11000,
         ibuf=10000,
     )
     wav = open('recv.wav', "rb")
@@ -142,15 +142,7 @@ def send_file(file_path):
             if not datas:
                 break
             e.send(peer, datas)
-            #time.sleep(0.0001)  # To avoid sending data too quickly
-def send_wav():
-    with open("mic.wav", 'rb') as f:
-        while True:
-            datas = f.read(250)  # ESP-NOW data limit per transmission
-            if not datas:
-                break
-            e.send(peer, datas)
-        e.send(peer, b'end')
+
 
 
 def calculate_bearing(coord1, coord2):
@@ -267,7 +259,7 @@ def record():
         bits=WAV_SAMPLE_SIZE_IN_BITS,
         format=I2S.MONO,
         rate=SAMPLE_RATE_IN_HZ,
-        ibuf=21000,
+        ibuf=20000,
     )
 
     # allocate sample arrays
