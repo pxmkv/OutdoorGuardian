@@ -13,11 +13,15 @@ from max30102 import MAX30102, MAX30105_PULSE_AMP_MEDIUM, MAX30105_PULSE_AMP_LOW
 from time import sleep
 from lora import LoRa
 import math
+from QMC5883 import QMC5883L
+
 #config
 # sd = SDCard(slot=3)  # sck=18, mosi=23, miso=19, cs=5
 # os.mount(sd, "/sd")
 i2c = I2C(sda=Pin(21), scl=Pin(22))
 display = ssd1306.SSD1306_I2C(128, 64, i2c)
+compass = QMC5883L(scl=22, sda=21)
+
 display.invert(1)
 
 display.text("  OUTDOOR", 0, 10, 1)
@@ -309,6 +313,7 @@ def is_float(value):
         return False
 
 
+
 def get_packet():
     global last_saved
     try:    
@@ -374,7 +379,25 @@ def main():
         #tracking mode
         packs=get_packet()
         buf[2] = 'Dist ' + str(haversine(packs, data)) +' m'
-        buf[3] = 'Dir ' + str(calculate_bearing(packs, data)) + ' deg'
+        #buf[3] = 'Dir ' + str(calculate_bearing(packs, data)) + ' deg'
+
+        dir_angle = compass.calculate_heading() - calculate_bearing(packs, data) 
+        if dir_angle > 180:
+            dir_angle -= 360
+        elif dir_angle < -180:
+            dir_angle += 360
+        if abs(dir_angle)<30:
+            display.invert(1)
+        else:
+            display.invert(0)
+        if dir_angle <0:
+            buf[3]= "Right " + str(abs(dir_angle))+ " degrees"
+        else:
+            buf[3]= "Left  " + str(dir_angle) + " degrees"
+            
+         
+
+
         buf[4] = 'Lora Dist ' + last_rssi 
         time_diff=time.ticks_ms()//1000-last_pack_time
         buf[5]='RECD ' +str(time_diff) + 's ago'# update buffer
@@ -422,8 +445,11 @@ def send_audio():
 # main program
 
 if not btn.value():
-    #calibration
-    pass
+    display.text("CALIBRATING", 0, 30, 1)
+    display.show()    #calibration
+    compass.calibrate(num_samples=200)
+    print(compass.offset_x, compass.offset_y, compass.offset_z)
+    
 
 sleep(3)
 display.invert(0)
