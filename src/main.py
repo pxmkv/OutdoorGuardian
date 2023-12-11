@@ -332,13 +332,14 @@ t_mode=False #tracking mode
 buf=['PRESS TO SPEAK','','','','','']
 last_pack_time = 0
 last_rssi=''
+
 def callback(pack):
     global t_mode,buf, data,last_pack_time, last_rssi
     print('lora_pack',pack)
     try:
         tmp=json.loads(pack.decode())
         data = tmp
-        last_rssi=str(lora.get_rssi())
+        last_rssi=str(max(-lora.get_rssi()-43,0))
     except Exception as e:
         print(f"Error processing input: {e}")
     t_mode=True
@@ -346,6 +347,7 @@ def callback(pack):
 
 def send_location():
     heart.set_active_leds_amplitude(MAX30105_PULSE_AMP_LOWEST)
+    display.invert(1)
     buf[3]='EMERGENCY'
     buf[4]='     MODE'
     disp()
@@ -369,12 +371,11 @@ def main():
                 if ir < 10000 or ir > 20000:
                     send_location()
             sleep(1)
-
         #tracking mode
         packs=get_packet()
         buf[2] = 'Dist ' + str(haversine(packs, data)) +' m'
         buf[3] = 'Dir ' + str(calculate_bearing(packs, data)) + ' deg'
-        buf[4] = 'RSSI ' + last_rssi + ' dBm'
+        buf[4] = 'Lora Dist ' + last_rssi 
         time_diff=time.ticks_ms()//1000-last_pack_time
         buf[5]='RECD ' +str(time_diff) + 's ago'# update buffer
         disp() # show display
@@ -393,7 +394,7 @@ def recv_audio():
                         break
                     file.write(msg)
                 else:
-                    sleep(0.1)#reduce loop time
+                    sleep(0.2)#reduce loop time
 
         buf[0]='PLAYING'
         disp() 
@@ -419,6 +420,10 @@ def send_audio():
             sleep(0.1)#reduce loop time
 
 # main program
+
+if not btn.value():
+    #calibration
+    pass
 
 sleep(3)
 display.invert(0)
