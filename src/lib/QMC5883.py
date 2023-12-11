@@ -27,6 +27,8 @@ class QMC5883L():
         # Reserve memory for the raw xyz measurements
         self.data = bytearray(6)
         
+        self.deg_offset = 300
+        
 	try:
 	    with open('config.dat') as f:
 	        line = f.readline().strip()  # Read the first line
@@ -51,9 +53,11 @@ class QMC5883L():
         
     def calculate_heading(self, declination=-14):
         x, y, _ = self.read_calibrated()
-	heading = math.atan2(y, x)
+	heading = math.atan2(y, x) 
         heading_degrees = math.degrees(heading)
         heading_degrees += declination
+        heading_degrees += self.deg_offset
+        
 
 	    # Normalize to 0-360
         if heading_degrees < 0:
