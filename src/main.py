@@ -14,6 +14,7 @@ from time import sleep
 from lora import LoRa
 import math
 from QMC5883 import QMC5883L
+import struct
 
 #config
 # sd = SDCard(slot=3)  # sck=18, mosi=23, miso=19, cs=5
@@ -97,19 +98,39 @@ has_message=False
 
 wav_samples = bytearray(10000)
 
+def make_tone(rate, bits, frequency):
+    # create a buffer containing the pure tone samples
+    samples_per_cycle = rate // frequency
+    sample_size_in_bytes = bits // 8
+    samples = bytearray(samples_per_cycle * sample_size_in_bytes)
+    volume_reduction_factor = 32
+    range = pow(2, bits) // 2 // volume_reduction_factor
+    
+    if bits == 16:
+        format = "<h"
+    else:  # assume 32 bits
+        format = "<l"
+    for i in range(samples_per_cycle):
+        sample = range + int((range - 1) * math.sin(2 * math.pi * i / samples_per_cycle))
+        struct.pack_into(format, samples, i * sample_size_in_bytes, sample)
+    return samples
+samples = make_tone(22050, 16, 2500)
+
+
 def play():
-    global wav_samples
+    global wav_samples,initialized
     audio_out = I2S(
-        1,
+        0,
         sck=Pin(4),
         ws=Pin(25),
         sd=Pin(0),
         mode=I2S.TX,
         bits=16,
-        format=I2S.STEREO,
-        rate=11000,
+        format=I2S.MONO,
+        rate=18000,
         ibuf=10000,
     )
+
     wav = open('recv.wav', "rb")
     _ = wav.seek(44)  # advance to first byte of Data section in WAV file
     # allocate sample array
@@ -130,13 +151,13 @@ def play():
                 _ = audio_out.write(wav_samples_mv[:num_read])
     except (KeyboardInterrupt, Exception) as e:
         print("caught exception {} {}".format(type(e).__name__, e))
+    wav.close()
 
     # cleanup
-    wav.close()
+        
     audio_out.deinit()
     print("Done")
-
-
+    initialized=False
 
 
 def send_file(file_path):
@@ -144,6 +165,7 @@ def send_file(file_path):
         while True:
             datas = f.read(50)  # ESP-NOW data limit per transmission
             if not datas:
+                e.send(peer, b'end')
                 break
             e.send(peer, datas)
 
@@ -206,7 +228,9 @@ def haversine(coord1, coord2):
 
 
 def record():
-    global wav_samples
+    global wav_samples,initialized
+    initialized=False
+
     # ======= AUDIO CONFIGURATION =======
     WAV_FILE = "mic.wav"
     RECORD_TIME_IN_SECONDS = 8
@@ -255,13 +279,13 @@ def record():
     num_bytes_written = wav.write(wav_header)
 
     audio_in = I2S(
-        0,
+        1,
         sck=Pin(4),
         ws=Pin(25),
         sd=Pin(12),
         mode=I2S.RX,
         bits=WAV_SAMPLE_SIZE_IN_BITS,
-        format=I2S.MONO,
+        format=I2S.STEREO,
         rate=SAMPLE_RATE_IN_HZ,
         ibuf=20000,
     )
@@ -333,7 +357,7 @@ def get_packet():
     return last_saved
 
 t_mode=False #tracking mode
-
+e_mode=False #emergency mode
 buf=['PRESS TO SPEAK','','','','','']
 last_pack_time = 0
 last_rssi=''
@@ -351,6 +375,8 @@ def callback(pack):
     last_pack_time=time.ticks_ms()//1000
 
 def send_location():
+    global e_mode
+    e_mode=True
     heart.set_active_leds_amplitude(MAX30105_PULSE_AMP_LOWEST)
     display.invert(1)
     buf[3]='EMERGENCY'
@@ -359,7 +385,7 @@ def send_location():
     while True:
         lora.send(str(get_packet()))
         print('lora sent')
-        sleep(0.5)
+        sleep(0.4)
 
 
 # lora.on_recv(callback)
@@ -424,22 +450,50 @@ def recv_audio():
         has_message=False
         buf[0]='PRESS TO SPEAK'
         disp() 
-        
+
+initialized=False
+  
 def send_audio():
-    global has_message
+    global has_message,initialized
+    past_t=0
     while True:
+        while has_message:
+            sleep(0.4)
         if not btn.value() and not has_message:
+            if initialized:
+                initialized = False
             buf[0]='RECORDING'
             disp()
             record()
             buf[0]='SENDING'
             disp()    
             send_file('mic.wav')
-            e.send(peer, b'end')
             buf[0]='PRESS TO SPEAK'
             disp() 
-        else:
-            sleep(0.1)#reduce loop time
+        elif e_mode and btn.value() and not has_message:
+            if not initialized:
+                audio_out = I2S(
+                    1,
+                    sck=Pin(4),
+                    ws=Pin(25),
+                    sd=Pin(0),
+                    mode=I2S.TX,
+                    bits=16,
+                    format=I2S.MONO,
+                    rate=22050,
+                    ibuf=10000,
+                )
+                initialized = True
+            try:
+                if time.ticks_ms()-past_t > 4000:
+                    past_t=time.ticks_ms()
+                while time.ticks_ms()-past_t<100:
+                    audio_out.write(samples)
+            except (KeyboardInterrupt, Exception) as e:
+                print("caught exception {} {}".format(type(e).__name__, e))
+        if initialized and (not btn.value() or has_message):
+            initialized = False
+        sleep(0.1)#reduce loop time
 
 # main program
 
