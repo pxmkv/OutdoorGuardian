@@ -42,9 +42,9 @@ heart.set_active_leds_amplitude(MAX30105_PULSE_AMP_MEDIUM)
 # Initialize GPS
 uart = UART(1, baudrate=9600, tx=14, rx=34)  # Update pins according to your hardware setup
 my_gps = micropyGPS.MicropyGPS()
-data = [[13, 50, 25.0], 37.8752, -122.2577]
-last_saved= [[13, 50, 25.0], 37.8757, -122.2587]
-
+data = [[13, 50, 25.0], 37.8752, -122.2577]#cory
+last_saved= [[13, 50, 25.0], 37.8728, -122.2609]#moffit
+# last_saved= [[13, 50, 25.0], 37.8760, -122.2601]#bollywood cafe
 
 # Wifi initialization
 sta = network.WLAN(network.STA_IF)  # Or network.AP_IF
@@ -379,14 +379,12 @@ def main():
         #tracking mode
         packs=get_packet()
         buf[2] = 'Dist ' + str(haversine(packs, data)) +' m'
-        #buf[3] = 'Dir ' + str(calculate_bearing(packs, data)) + ' deg'
-
         dir_angle = compass.calculate_heading() - calculate_bearing(packs, data) 
         if dir_angle > 180:
             dir_angle -= 360
         elif dir_angle < -180:
             dir_angle += 360
-        if abs(dir_angle)<30:
+        if abs(dir_angle)<5:
             display.invert(1)
         else:
             display.invert(0)
@@ -395,13 +393,13 @@ def main():
         else:
             buf[3]= "Left  " + str(dir_angle) + " degrees"
             
-        buf[4] = "Compass " + str(compass.calculate_heading())
-        buf[5] = "Bearing " + str(calculate_bearing(packs, data) )
+        # buf[4] = "Compass " + str(compass.calculate_heading())
+        # buf[5] = "Bearing " + str(calculate_bearing(packs, data) )
 
 
-        # buf[4] = 'Lora Dist ' + last_rssi 
+        buf[4] = 'Lora Dist ' + last_rssi 
         time_diff=time.ticks_ms()//1000-last_pack_time
-        #buf[5]='RECD ' +str(time_diff) + 's ago'# update buffer
+        buf[5]='RECD ' +str(time_diff) + 's ago'# update buffer
         disp() # show display
         sleep(0.2)#update every 0.2 second
 
