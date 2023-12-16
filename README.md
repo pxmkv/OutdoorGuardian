@@ -24,14 +24,6 @@ The Outdoor Guardian is an innovative embedded device designed for outdoor adven
 - GPS Module: GY-NEO6MV1/GY-NEO6MV2
 - Additional: Various resistors, capacitors, and power supply components
 
-
-
-## Acknowledgments
-
-Special thanks to our project advisors and the UC Berkeley EECS department for their support and guidance.
-
-
-
 ### Pin out (LilyGO LORA32)
 * I2S Speaker & Mic: SCK/BCK_PIN =4, WS/LCK_PIN =25, SD/DIN_PIN =0, MIC_SD=12
 * I2C: SDA =21, SCL =22
@@ -40,3 +32,11 @@ Special thanks to our project advisors and the UC Berkeley EECS department for t
 * GPS: TX=14, RX=34
 * Button: 35
 * Unused pins :36,39
+
+
+## Acknowledgments
+
+Special thanks to our project advisors and the UC Berkeley EECS department for their support and guidance.
+
+
+
