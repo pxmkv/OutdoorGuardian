@@ -1,4 +1,4 @@
-# Outdoor Guardian: An Embedded Solution for Outdoor Enthusiasts
+# Outdoor Guardian
 
 ## Introduction
 
